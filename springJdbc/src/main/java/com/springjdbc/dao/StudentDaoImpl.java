@@ -1,5 +1,8 @@
 package com.springjdbc.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -28,7 +31,22 @@ public class StudentDaoImpl implements StudentDao{
 		// selecting single student data
 		String query="select * from student where id=?";
 		RowMapper<Student> rowMaper=new RowMaperImpl();
-		Student student = this.jdbcTemplate.queryForObject(query, rowMaper,studentId);
+		Student student = this.jdbcTemplate.queryForObject(query, 
+			//anonymous class
+		   new RowMapper<Student>(){
+			// using anonymous class we can do the same work 
+			@Override
+			public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				Student student = new Student();
+				student.setId(rs.getInt(1));
+				student.setName(rs.getString(2));
+				student.setCity(rs.getString(3));
+
+				return student;
+			}
+			
+		},studentId);
 		return student;
 	}
 
