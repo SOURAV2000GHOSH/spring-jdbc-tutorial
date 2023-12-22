@@ -1,6 +1,7 @@
 package com.springjdbc.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.springjdbc.entity.Student;
 
@@ -22,7 +23,15 @@ public class StudentDaoImpl implements StudentDao{
 		int update = this.jdbcTemplate.update(query,student.getName(),student.getCity(),student.getId());
 		return update;
 	}
-	
+	@Override
+	public Student getStudent(int studentId) {
+		// selecting single student data
+		String query="select * from student where id=?";
+		RowMapper<Student> rowMaper=new RowMaperImpl();
+		Student student = this.jdbcTemplate.queryForObject(query, rowMaper,studentId);
+		return student;
+	}
+
 	@Override
 	public int delete(int studentId) {
 		// deleting the value
@@ -39,6 +48,7 @@ public class StudentDaoImpl implements StudentDao{
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
+	
 	
 
 }

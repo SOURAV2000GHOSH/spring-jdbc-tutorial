@@ -28,8 +28,12 @@ public class App {
 //    System.out.println("number of rows changed: "+update);
     
     //deleting data
-    int delete = studentDao.delete(105);
-    System.out.println("number of rows deleted: "+delete);
+//    int delete = studentDao.delete(105);
+//    System.out.println("number of rows deleted: "+delete);
+    
+    //selecting data from database
+    Student s=studentDao.getStudent(101);
+    System.out.println("getting student is : "+s);
     
     
     context.close();
