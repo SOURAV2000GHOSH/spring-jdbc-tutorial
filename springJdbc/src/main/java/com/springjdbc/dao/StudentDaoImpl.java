@@ -2,6 +2,7 @@ package com.springjdbc.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -31,22 +32,25 @@ public class StudentDaoImpl implements StudentDao{
 		// selecting single student data
 		String query="select * from student where id=?";
 		RowMapper<Student> rowMaper=new RowMaperImpl();
-		Student student = this.jdbcTemplate.queryForObject(query, 
-			//anonymous class
-		   new RowMapper<Student>(){
-			// using anonymous class we can do the same work 
-			@Override
-			public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
-				Student student = new Student();
-				student.setId(rs.getInt(1));
-				student.setName(rs.getString(2));
-				student.setCity(rs.getString(3));
-
-				return student;
-			}
-			
-		},studentId);
+//		Student student = this.jdbcTemplate.queryForObject(query, 
+//			//anonymous class
+//		   new RowMapper<Student>(){
+//			// using anonymous class we can do the same work 
+//			@Override
+//			public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+//				// TODO Auto-generated method stub
+//				Student student = new Student();
+//				student.setId(rs.getInt(1));
+//				student.setName(rs.getString(2));
+//				student.setCity(rs.getString(3));
+//
+//				return student;
+//			}
+//			
+//		},studentId);
+		
+		//but we need to follow below rule
+		Student student=this.jdbcTemplate.queryForObject(query, rowMaper,studentId);
 		return student;
 	}
 
@@ -58,6 +62,14 @@ public class StudentDaoImpl implements StudentDao{
 		return update;
 	}
 	
+	@Override
+	public List<Student> getAllStudent() {
+		// selecting multiple student
+		String query="select * from student";
+		List<Student> studentList = this.jdbcTemplate.query(query, new RowMaperImpl());
+		return studentList;
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}
@@ -67,6 +79,4 @@ public class StudentDaoImpl implements StudentDao{
 	}
 
 	
-	
-
 }
