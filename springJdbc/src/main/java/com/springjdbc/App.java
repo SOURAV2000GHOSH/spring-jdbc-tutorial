@@ -18,8 +18,20 @@ public class App {
     student.setId(105);
     student.setName("Pratim Sarkar");
     student.setCity("Jaytara");
-    int insert = studentDao.insert(student);
-    System.out.println("number of rows inserted :"+insert);
+    
+    //inserting data
+//    int insert = studentDao.insert(student);
+//    System.out.println("number of rows inserted :"+insert);
+    
+    //updating data
+//    int update=studentDao.update(student);
+//    System.out.println("number of rows changed: "+update);
+    
+    //deleting data
+    int delete = studentDao.delete(105);
+    System.out.println("number of rows deleted: "+delete);
+    
+    
     context.close();
     
   }
