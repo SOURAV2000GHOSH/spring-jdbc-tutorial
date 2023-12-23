@@ -2,6 +2,7 @@ package com.springjdbc;
 
 import java.util.List;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,8 +14,13 @@ public class App {
 	
 	public static void main(String[] args) {
     System.out.println("Application started...........");
+    //using xml configuration property
     AbstractApplicationContext context= new ClassPathXmlApplicationContext("com/springjdbc/config.xml");
     StudentDao studentDao = context.getBean("studentDao",StudentDao.class);
+    
+    // using annotation configuration property
+    AbstractApplicationContext context2 = new AnnotationConfigApplicationContext(JdbcConfig.class);
+    StudentDao bean = context2.getBean("studentDao",StudentDao.class);
     
     Student student= new Student();
     student.setId(105);
@@ -38,7 +44,7 @@ public class App {
 //    System.out.println("getting student is : "+select);
     
     //getting all students details from database
-    List<Student> students=studentDao.getAllStudent();
+    List<Student> students=bean.getAllStudent();
     System.out.println(students);
     
     context.close();
